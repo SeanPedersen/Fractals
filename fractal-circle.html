@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <title>Expanding Fractal Circle</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 100;
+        const numCircles = 12;
+
+        function drawCircles(x, y, r, level) {
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            if (level > 0) {
+                const newRadius = r / 2;
+                const angleStep = (2 * Math.PI) / numCircles;
+
+                for (let i = 0; i < numCircles; i++) {
+                    const angle = i * angleStep;
+                    const newX = x + Math.cos(angle) * r;
+                    const newY = y + Math.sin(angle) * r;
+                    drawCircles(newX, newY, newRadius, level - 1);
+                }
+            }
+        }
+
+        drawCircles(centerX, centerY, radius, 2);
+    </script>
+</body>
+
+</html>

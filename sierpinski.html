@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>Sierpinski Triangle</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Define the initial triangle
+        const points = [
+            { x: 300, y: 50 },
+            { x: 50, y: 550 },
+            { x: 550, y: 550 }
+        ];
+
+        // Define colors for each level
+        const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', '#800080'];
+
+        // Function to draw a triangle
+        function drawTriangle(points, level) {
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            ctx.lineTo(points[1].x, points[1].y);
+            ctx.lineTo(points[2].x, points[2].y);
+            ctx.closePath();
+            ctx.fillStyle = colors[level];
+            ctx.fill();
+
+            // Recursively draw smaller triangles if level is not 0
+            if (level > 0) {
+                const newPoints = [
+                    getMidpoint(points[0], points[1]),
+                    getMidpoint(points[1], points[2]),
+                    getMidpoint(points[2], points[0])
+                ];
+
+                drawTriangle([points[0], newPoints[0], newPoints[2]], level - 1);
+                drawTriangle([points[1], newPoints[1], newPoints[0]], level - 1);
+                drawTriangle([points[2], newPoints[2], newPoints[1]], level - 1);
+            }
+        }
+
+        // Function to find the midpoint between two points
+        function getMidpoint(p1, p2) {
+            return {
+                x: (p1.x + p2.x) / 2,
+                y: (p1.y + p2.y) / 2
+            };
+        }
+
+        drawTriangle(points, 6);
+    </script>
+</body>
+
+</html>
